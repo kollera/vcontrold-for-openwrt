@@ -1,9 +1,9 @@
-name: Test
+name: bujld
 
 on:
   push:
-    branches:
-      - master
+    branches: ['main','master']
+    paths: ['vcontrold/**']
 
 jobs:
   build:
