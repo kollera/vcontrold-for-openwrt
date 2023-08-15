@@ -22,4 +22,4 @@ jobs:
           - if: ${{ env.secret_token != '' }}
             run: echo 'This step will only run if the secret has a value set.'
           - if: ${{ env.secret_token == '' }}
-            run: 'echo "secret_token has no value set"
+            run: 'echo "secret_token has no value set'
