@@ -60,3 +60,4 @@ define Package/vcontrold/install
 endef
 
 $(eval $(call BuildPackage,vcontrold))
+
