@@ -15,3 +15,11 @@ jobs:
         run: echo "::add-mask::${{ secrets.MY_SECRET_TOKEN }}"
       - name: echo a secret
         run: echo "your secret token is ${{ secrets.MY_SECRET_TOKEN }}"
+      - name: "check MY_SECRET_TOKEN exists"
+        env: 
+            secret_token: ${{ secrets.MY_SECRET_TOKEN }}
+        steps:
+          - if: ${{ env.secret_token != '' }}
+          run: echo 'This step will only run if the secret has a value set.'
+          - if: ${{ env.secret_token == '' }}
+          run: 'echo "secret_token has no value set"
