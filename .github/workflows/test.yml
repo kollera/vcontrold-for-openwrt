@@ -16,10 +16,9 @@ jobs:
       - name: echo a secret
         run: echo "your secret token is ${{ secrets.MY_SECRET_TOKEN }}"
       - name: "check MY_SECRET_TOKEN exists"
-        env: 
-            secret_token: ${{ secrets.MY_SECRET_TOKEN }}
-        steps:
-          - if: ${{ env.secret_token != '' }}
-            run: echo 'This step will only run if the secret has a value set.'
-          - if: ${{ env.secret_token == '' }}
-            run: 'echo "secret_token has no value set'
+        run: |
+          if [[ -n "${{ secrets.MY_SECRET_TOKEN }}" ]]; then
+            echo "The secret MY_SECRET_TOKEN exists."
+          else
+            echo "The secret MY_SECRET_TOKEN does not exist."
+          fi
