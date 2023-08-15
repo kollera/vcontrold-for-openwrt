@@ -1,4 +1,5 @@
 name: Test
+#DUMMY
 
 on:
   push:
