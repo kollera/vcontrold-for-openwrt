@@ -3,34 +3,18 @@ name: Test
 on:
   push:
     branches:
-      - master
+      - test-secret
 
 jobs:
-  build:
-    name: ${{ matrix.arch }} build
+  hello_world_job:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        arch:
-          - mips_24kc
-          - mipsel_24kc
-          - powerpc_464fp
-          - powerpc_8548
-          - riscv64_riscv64
-
+    name: A job to say hello
     steps:
-      - uses: actions/checkout@v3
+      - name: Hello world action step
+        id: hello
+        uses: actions/hello-world-docker-action@v2
         with:
-          fetch-depth: 0
-
-      - name: Build
-        uses: kollera/gh-action-sdk@main
-        env:
-          V: sc
-          ARCH: ${{ matrix.arch }}
-
-      - name: Store packages
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.arch}}-packages
-          path: bin/packages/${{ matrix.arch }}/**/vcontrold*.ipk
+          who-to-greet: 'Mona the Octocat'
+      # Use the output from the `hello` step
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello.outputs.time }}"

@@ -1,0 +1,36 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: ${{ matrix.arch }} build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch:
+          - mips_24kc
+          - mipsel_24kc
+          - powerpc_464fp
+          - powerpc_8548
+          - riscv64_riscv64
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Build
+        uses: kollera/gh-action-sdk@main
+        env:
+          V: sc
+          ARCH: ${{ matrix.arch }}
+
+      - name: Store packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.arch}}-packages
+          path: bin/packages/${{ matrix.arch }}/**/vcontrold*.ipk
