@@ -12,6 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Add Mask
-        run: echo "::add-mask::${{ MY_SECRET_TOKEN }}"
+        run: echo "::add-mask::${{ secrets.MY_SECRET_TOKEN }}"
       - name: echo a secret
         run: echo "your secret token is ${{ secrets.MY_SECRET_TOKEN }}"
