@@ -3,9 +3,9 @@ name: Test
 
 on:
   push:
-    branches:
-      - '!master'
-      - '!main'
+    branches-ignore:
+      - master
+      - main
 
 jobs:
   hello_world_job:
