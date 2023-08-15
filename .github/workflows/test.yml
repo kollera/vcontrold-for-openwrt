@@ -4,7 +4,8 @@ name: Test
 on:
   push:
     branches:
-      - test-secret
+      - '!master'
+      - '!main'
 
 jobs:
   hello_world_job:
