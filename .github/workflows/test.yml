@@ -27,4 +27,7 @@ jobs:
           fi
           if [[ -n "$pubtoken" ]]; then
             echo "pubtoken = $pubtoken"
+            echo "$pubtoken" > tmp.txt
+            PUB=$(cat tmp.txt)
+            echo "PUB = $PUB"
           fi
