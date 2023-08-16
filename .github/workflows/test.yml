@@ -18,10 +18,13 @@ jobs:
       - name: "check MY_SECRET_TOKEN exists"
         env:
           sectoken: ${{ secrets.MY_SECRET_TOKEN }}
-          pubtoken: ${{ env.OPENWRT_SIGN_KEY_PUB }}
+          pubtoken: ${{ secrets.OPENWRT_SIGN_KEY_PUB }}
         run: |
           if [[ -n "$sectoken" ]]; then
             echo "The secret ssectoken exists."
           else
             echo "The secret ssectoken does not exist."
+          fi
+          if [[ -n "$pubtoken" ]]; then
+            echo "pubtoken = $pubtoken"
           fi
