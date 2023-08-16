@@ -1,6 +1,5 @@
 
 include $(TOPDIR)/rules.mk
-
 PKG_NAME:=vcontrold
 PKG_VERSION:=0.98.12
 PKG_REV:=v$(PKG_VERSION)
@@ -60,4 +59,5 @@ define Package/vcontrold/install
 endef
 
 $(eval $(call BuildPackage,vcontrold))
+
 
