@@ -60,4 +60,3 @@ endef
 
 $(eval $(call BuildPackage,vcontrold))
 
-
