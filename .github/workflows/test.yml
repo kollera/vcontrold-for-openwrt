@@ -19,8 +19,8 @@ jobs:
         env:
           sectoken: ${{ secrets.MY_SECRET_TOKEN }}
         run: |
-          echo "::add-mask::${{ env.sectoken }}"
-          if [[ -n "${{ env.ssectoken }}" ]]; then
+          echo "::add-mask::$sectoken"
+          if [[ -n "$sectoken" ]]; then
             echo "The secret ssectoken exists."
           else
             echo "The secret ssectoken does not exist."
