@@ -16,9 +16,12 @@ jobs:
       - name: echo a secret
         run: echo "your secret token is ${{ secrets.MY_SECRET_TOKEN }}"
       - name: "check MY_SECRET_TOKEN exists"
+        env:
+          sectoken: ${{ secrets.MY_SECRET_TOKEN }}
         run: |
-          if [[ -n "${{ secrets.MY_SECRET_TOKEN }}" ]]; then
-            echo "The secret MY_SECRET_TOKEN exists."
+          echo "::add-mask::${{ sectokenn }}"
+          if [[ -n "${{ ssectoken }}" ]]; then
+            echo "The secret ssectoken exists."
           else
-            echo "The secret MY_SECRET_TOKEN does not exist."
+            echo "The secret ssectoken does not exist."
           fi
