@@ -106,9 +106,9 @@ jobs:
           body: |
             Changes in this release:
             - Add your release notes here.
-          files: 
-            - bin/packages/${{ matrix.arch }}/vcontrold/*.apk
-            - bin/packages/${{ matrix.arch }}/vcontrold/*.ipk
+          files: |
+            bin/packages/${{ matrix.arch }}/vcontrold/*.apk
+            bin/packages/${{ matrix.arch }}/vcontrold/*.ipk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub Actions
 
