@@ -69,14 +69,14 @@ jobs:
           SIGN_KEY: ${{ secrets.OPENWRT_SIGN_KEY }}
           FIXUP: 1
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.arch }}-${{ matrix.sdk }}
-          path: |
-            bin/packages/${{ matrix.arch }}/vcontrold/*.apk
-            bin/packages/riscv64_generic/vcontrold/*.apk
-            bin/packages/${{ matrix.arch }}/vcontrold/*.ipk
+      #- name: Upload artifacts
+      #  uses: actions/upload-artifact@v4
+      #  with:
+      #    name: ${{ matrix.arch }}-${{ matrix.sdk }}
+      #    path: |
+      #      bin/packages/${{ matrix.arch }}/vcontrold/*.apk
+      #      bin/packages/riscv64_generic/vcontrold/*.apk
+      #      bin/packages/${{ matrix.arch }}/vcontrold/*.ipk
 
       - name: Store packages
         uses: actions/upload-artifact@v4
@@ -98,7 +98,7 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: '*'
+          name: '*-packages'
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
