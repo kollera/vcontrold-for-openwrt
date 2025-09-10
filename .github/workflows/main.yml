@@ -1,10 +1,10 @@
-name: bujld
+name: build
 
 on:
   push:
-    branches: ['main','master']
+    branches: ['main', 'master']
     paths: ['vcontrold/**']
-  workflow_dispatch:
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   build:
@@ -79,6 +79,35 @@ jobs:
       - name: Store packages
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.arch}}-packages
+          name: ${{ matrix.arch }}-packages
           path: bin/packages/${{ matrix.arch }}/**/vcontrold*.ipk
 
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: build  # Ensure this job runs after the build job
+    if: startsWith(github.ref, 'refs/tags/')  # Only run this job for tags
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.arch }}-${{ matrix.sdk }}  # Download the artifacts from the build job
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref }}  # Use the tag that triggered the workflow
+          release_name: Release ${{ github.ref }}  # Customize release name
+          body: |
+            Changes in this release:
+            - Add your release notes here.
+          files: 
+            - bin/packages/${{ matrix.arch }}/vcontrold/*.apk
+            - bin/packages/${{ matrix.arch }}/vcontrold/*.ipk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub Actions
