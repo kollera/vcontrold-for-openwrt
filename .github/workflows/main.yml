@@ -47,7 +47,7 @@ jobs:
           - riscv64_riscv64
           - x86_64
         sdk:
-          - openwrt-24.10.2
+          - openwrt-24.10
           - SNAPSHOT
 
     steps:
@@ -65,6 +65,7 @@ jobs:
           NO_REFRESH_CHECK: true
           SIGN_KEY_PUB: ${{ secrets.OPENWRT_SIGN_KEY_PUB }}
           SIGN_KEY: ${{ secrets.OPENWRT_SIGN_KEY }}
+          FIXUP: 1
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
