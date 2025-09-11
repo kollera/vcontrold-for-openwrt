@@ -81,7 +81,7 @@ jobs:
       - name: Store packages
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.arch }}-packages
+          name: vcontrold-${{ matrix.arch }}-packages
           path: bin/packages/${{ matrix.arch }}/**/vcontrold*.ipk
 
   release:
@@ -90,16 +90,6 @@ jobs:
     needs: build  # Ensure this job runs after the build job
     if: startsWith(github.ref, 'refs/tags/')  # Only run this job for tags
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: '*-packages'
-
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
@@ -109,6 +99,7 @@ jobs:
             Changes in this release:
             - Add your release notes here.
           files: |
+            vcontrold-**-packages
             bin/packages/**/vcontrold/*.apk
             bin/packages/**/vcontrold/*.ipk
         env:
