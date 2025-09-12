@@ -65,7 +65,7 @@ jobs:
       - name: Download Build Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: vcontrold-*-packages
+          name: vcontrold-${{ matrix.arch }}-${{ matrix.sdk }}-packages
           path: ./artifacts
 
       - name: Create Release
