@@ -4,9 +4,9 @@ on:
   push:
     branches: ['main', 'master']
     paths: ['vcontrold/**']
-    tags:  # Add this line to trigger on tags
+    tags:
       - 'v*'
-  workflow_dispatch:  # Allows manual triggering
+  workflow_dispatch:
 
 jobs:
   build:
@@ -51,27 +51,32 @@ jobs:
       - name: Store packages
         uses: actions/upload-artifact@v4
         with:
-          name: vcontrold-${{ matrix.arch }}-packages
-          path: bin/packages/${{ matrix.arch }}/**/vcontrold*.ipk
+          name: vcontrold-${{ matrix.arch }}-${{ matrix.sdk }}-packages
+          path: |
+            bin/packages/${{ matrix.arch }}/**/vcontrold*.ipk
+            bin/packages/${{ matrix.arch }}/**/vcontrold*.apk
 
   release:
     name: Create Release
     runs-on: ubuntu-latest
-    needs: build  # Ensure this job runs after the build job
-    if: startsWith(github.ref, 'refs/tags/')  # Only run this job for tags
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
     steps:
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: vcontrold-*-packages
+          path: ./artifacts
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}  # Use the tag that triggered the workflow
-          name: Release ${{ github.ref }}  # Customize release name
+          tag_name: ${{ github.ref }}
+          name: Release ${{ github.ref }}
           body: |
             Changes in this release:
             - Add your release notes here.
           files: |
-            vcontrold-**-packages
-            bin/packages/**/vcontrold/*.apk
-            bin/packages/**/vcontrold/*.ipk
+            ./artifacts/**/*
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub Actions
-
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
