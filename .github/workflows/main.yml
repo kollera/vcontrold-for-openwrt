@@ -68,8 +68,13 @@ jobs:
     needs: build
     if: startsWith(github.ref, 'refs/tags/')
     steps:
-      - name: Attach binaries to release
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: Release notes for ${{ github.ref }}
+          files: output/**  # Include all files in the output directory
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          files: output/**
+  
