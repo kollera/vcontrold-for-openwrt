@@ -61,7 +61,8 @@ jobs:
           mkdir -p $GITHUB_WORKSPACE/output/${{ matrix.arch }}
           cp bin/packages/${{ matrix.arch }}/**/vcontrold*.ipk $GITHUB_WORKSPACE/output/${{ matrix.arch }}/ || true
           cp bin/packages/${{ matrix.arch }}/**/vcontrold*.apk $GITHUB_WORKSPACE/output/${{ matrix.arch }}/ || true
-
+      - name: List Output Directory
+        run: ls -R $GITHUB_WORKSPACE/output 
   release:
     name: Create Release
     runs-on: ubuntu-latest
@@ -72,7 +73,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          name: Release ${{ github.ref }}
           body: Release notes for ${{ github.ref }}
           files: $GITHUB_WORKSPACE/output/**  # Include all files in the output directory
         env:
