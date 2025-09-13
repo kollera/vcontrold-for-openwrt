@@ -55,6 +55,12 @@ jobs:
           path: |
             bin/packages/${{ matrix.arch }}/**/vcontrold*.ipk
             bin/packages/${{ matrix.arch }}/**/vcontrold*.apk
+            
+      - name: storelocal
+        run: |
+          mkdir -p output/${{ matrix.arch }}
+          cp bin/packages/${{ matrix.arch }}/**/vcontrold*.ipk output/${{ matrix.arch }}/
+          cp bin/packages/${{ matrix.arch }}/**/vcontrold*.apk output/${{ matrix.arch }}/
 
   release:
     name: Create Release
@@ -65,11 +71,5 @@ jobs:
       - name: Attach binaries to release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -x
-          assets=()
-          for asset in ./bin/*; do
-            assets+=("-a" "$asset")
-          done
-          githubref=${{ github.ref }}   # get the github.ref value
-          hub release edit "${assets[@]}" -m "${githubref##*/}" "${githubref##*/}" 
+        with:
+          files: output/**
