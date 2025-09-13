@@ -59,8 +59,8 @@ jobs:
       - name: storelocal
         run: |
           mkdir -p output/${{ matrix.arch }}
-          cp bin/packages/${{ matrix.arch }}/**/vcontrold*.ipk output/${{ matrix.arch }}/
-          cp bin/packages/${{ matrix.arch }}/**/vcontrold*.apk output/${{ matrix.arch }}/
+          cp bin/packages/${{ matrix.arch }}/**/vcontrold*.ipk output/${{ matrix.arch }}/ || TRUE
+          cp bin/packages/${{ matrix.arch }}/**/vcontrold*.apk output/${{ matrix.arch }}/ || TRUE
 
   release:
     name: Create Release
