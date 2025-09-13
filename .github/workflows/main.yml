@@ -58,7 +58,7 @@ jobs:
             
       - name: storelocal
         run: |
-          mkdir -p output/${{ matrix.arch }}
+          mkdir -p /output/${{ matrix.arch }}
           cp bin/packages/${{ matrix.arch }}/**/vcontrold*.ipk output/${{ matrix.arch }}/ || true
           cp bin/packages/${{ matrix.arch }}/**/vcontrold*.apk output/${{ matrix.arch }}/ || true
 
@@ -74,7 +74,7 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: Release notes for ${{ github.ref }}
-          files: output/**  # Include all files in the output directory
+          files: /output/**  # Include all files in the output directory
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
