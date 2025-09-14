@@ -52,9 +52,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: vcontrold-${{ matrix.arch }}-${{ matrix.sdk }}-packages
-          path: |
-            bin/packages/${{ matrix.arch }}/**/vcontrold*.ipk
-            bin/packages/${{ matrix.arch }}/**/vcontrold*.apk
+          path: bin/packages/${{ matrix.arch }}/
             
   release:
     name: Create Release
