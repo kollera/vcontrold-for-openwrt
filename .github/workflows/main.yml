@@ -20,7 +20,7 @@ jobs:
           - mipsel_mips32
         sdk:
           - openwrt-24.10
-          - SNAPSHOT
+          #- SNAPSHOT
 
     steps:
       - uses: actions/checkout@v4
