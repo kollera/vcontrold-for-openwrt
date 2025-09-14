@@ -53,6 +53,8 @@ jobs:
         with:
           name: vcontrold-${{ matrix.arch }}-${{ matrix.sdk }}-packages
           path: bin/packages/${{ matrix.arch }}/vcontrold/
+      - name: Set environment variable
+        run: echo "OPENWRT_VERSION=${{ matrix.sdk }}" >> $GITHUB_ENV
           
   latest:
     name: Create latest
@@ -68,7 +70,7 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2.2.1
         with:
-          tag_name: latest
+          tag_name: latest-${{ env.OPENWRT_VERSION }}
           make_latest: true
           files: ./artifacts/**
         env:
