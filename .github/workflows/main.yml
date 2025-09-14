@@ -72,11 +72,12 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2.2.1
         with:
-          tag_name: ${{ github.ref }}
+          draft: false
+          prerelease: false    
+          tag_name: ${{ github.run_number }}
           name: Release ${{ github.ref }}
           body: Release notes for ${{ github.ref }}
-          files: |
-            "$GITHUB_WORKSPACE/output/**" 
+          files: $GITHUB_WORKSPACE/output/**
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
