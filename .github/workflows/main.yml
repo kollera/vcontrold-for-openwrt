@@ -51,8 +51,8 @@ jobs:
       - name: Store packages
         uses: actions/upload-artifact@v4
         with:
-          name: vcontrold-${{ matrix.arch }}-${{ matrix.sdk }}-packages
-          path: bin/packages/${{ matrix.arch }}/
+          name: vcontrold/${{ matrix.arch }}-${{ matrix.sdk }}-packages
+          path: bin/packages/${{ matrix.arch }}/vcontrold/
             
   release:
     name: Create Release
