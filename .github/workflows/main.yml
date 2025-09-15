@@ -7,7 +7,9 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
-
+env:
+  OPENWRT_VERSION: 24.10
+  
 jobs:
   build:
     permissions: write-all 
@@ -50,7 +52,7 @@ jobs:
           - riscv64_riscv64
           - x86_64
         sdk:
-          - openwrt-24.10
+          - openwrt-${{ env.OPENWRT_VERSION }}
           #- SNAPSHOT
 
     steps:
@@ -91,11 +93,11 @@ jobs:
     needs: build
     steps:
       - name: create dir
-        run: mkdir -p ./artifacts
+        run: mkdir -p "./artifacts/${{ env.OPENWRT_VERSION }}"
       - name: Download all artifacts
         uses: actions/download-artifact@v5
         with:
-          path: ./artifacts
+          path: "./artifacts/${{ env.OPENWRT_VERSION }}"
       - name: Create Release
         uses: softprops/action-gh-release@v2.2.1
         with:
