@@ -52,7 +52,7 @@ jobs:
           - riscv64_riscv64
           - x86_64
         sdk:
-          - openwrt-${{ env.OPENWRT_VERSION }}
+          - "openwrt-${{ env.OPENWRT_VERSION }}"
           #- SNAPSHOT
 
     steps:
