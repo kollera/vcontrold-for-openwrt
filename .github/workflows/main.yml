@@ -8,13 +8,23 @@ on:
       - 'v*'
   workflow_dispatch:
 env:
-  OPENWRT_VERSION: 24.10
-  
+  OPENWRT_VERSION: "24.10"
 jobs:
+  setup:
+      runs-on: ubuntu-latest
+      outputs:
+        OPENWRT_VERSION: ${{ env.OPENWRT_VERSION }}
+      steps:
+        - name: Compute outputs
+          run: |
+            echo "OPENWRT_VERSION=${{ env.OPENWRT_VERSION }}" >> $GITHUB_OUTPUT
   build:
     permissions: write-all 
     name: ${{ matrix.arch }} build
     runs-on: ubuntu-latest
+    outputs:
+      OPENWRT_VERSION: ${{ env.OPENWRT_VERSION }}
+    needs: setup
     strategy:
       fail-fast: false
       matrix:
@@ -52,10 +62,14 @@ jobs:
           - riscv64_riscv64
           - x86_64
         sdk:
-          - "openwrt-$OPENWRT_VERSION"
+          - openwrt-${{ needs.setup.outputs.OPENWRT_VERSION }}
           #- SNAPSHOT
 
     steps:
+      - name: set env
+        run: |
+          echo "OPENWRT_VERSION=${{ env.OPENWRT_VERSION }}" >> $GITHUB_OUTPUT
+            
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -85,7 +99,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: vcontrold-${{ matrix.arch }}-${{ matrix.sdk }}-packages
-          path: bin/packages/${{ matrix.arch }}/vcontrold/        
+          path: bin/packages/${{ needs.build.outputs.OPENWRT_VERSION }}/${{ matrix.arch }}/vcontrold/        
   latest:
     permissions: write-all 
     name: Create latest
@@ -93,11 +107,11 @@ jobs:
     needs: build
     steps:
       - name: create dir
-        run: mkdir -p "./artifacts/$OPENWRT_VERSION"
+        run: mkdir -p ./artifacts
       - name: Download all artifacts
         uses: actions/download-artifact@v5
         with:
-          path: "./artifacts/$OPENWRT_VERSION"
+          path: ./artifacts
       - name: Create Release
         uses: softprops/action-gh-release@v2.2.1
         with:
@@ -126,7 +140,7 @@ jobs:
           #draft: false
           #prerelease: false    
           #tag_name: ${{ github.run_number }}
-          #name: Release ${{ github.ref }}
+          name: ${{ needs.build.outputs.OPENWRT_VERSION }}
           #body: Release notes for ${{ github.ref }}
           files: ./artifacts/**
         env:
