@@ -115,7 +115,7 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2.2.1
         with:
-          name: ${{ needs.build.outputs.OPENWRT_VERSION }}
+          name: openwrt-${{ needs.build.outputs.OPENWRT_VERSION }}
           tag_name: latest
           make_latest: true
           files: ./artifacts/**
